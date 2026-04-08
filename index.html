@@ -19,12 +19,12 @@
             color: var(--dark);
         }
 
-        /* --- PANTALLA DE ENTRADA --- */
+        /* --- PANTALLA DE ENTRADA (SPLASH) --- */
         #splash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--crema);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 9999;
+            z-index: 10000;
         }
         .logo-box {
             width: 150px; height: 150px; border-radius: 50%;
@@ -36,9 +36,10 @@
             background: var(--gold); color: white; border: none;
             padding: 15px 40px; border-radius: 30px; font-weight: 600;
             text-transform: uppercase; letter-spacing: 2px; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(201, 168, 76, 0.3);
         }
 
-        /* --- CONTENIDO --- */
+        /* --- CONTENIDO PRINCIPAL --- */
         header {
             background: white; padding: 15px; text-align: center;
             border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100;
@@ -47,18 +48,17 @@
 
         .container { padding: 20px; padding-bottom: 100px; }
 
-        /* --- CATEGORIAS --- */
         .categoria-btn {
             width: 100%; background: white; border: 1px solid #eee;
             padding: 20px; border-radius: 15px; margin-bottom: 10px;
             display: flex; justify-content: space-between; align-items: center;
             font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 16px;
+            cursor: pointer;
         }
         .categoria-btn.active { background: var(--gold); color: white; }
         
         .lista-productos { display: none; padding: 10px 0; }
 
-        /* --- PRODUCTO --- */
         .producto {
             display: flex; align-items: center; background: white;
             padding: 10px; border-radius: 15px; margin-bottom: 10px;
@@ -75,13 +75,13 @@
         .btn-pedir {
             background: #25d366; color: white; border: none;
             padding: 8px 12px; border-radius: 10px; font-size: 12px;
+            font-weight: 600; cursor: pointer;
         }
 
-        /* BARRA INFERIOR */
         .nav-bottom {
             position: fixed; bottom: 0; width: 100%; background: white;
             display: flex; justify-content: space-around; padding: 15px 0;
-            border-top: 1px solid #eee;
+            border-top: 1px solid #eee; z-index: 500;
         }
         .nav-bottom a { text-decoration: none; color: #888; font-size: 12px; text-align: center; }
     </style>
@@ -89,8 +89,10 @@
 <body>
 
     <div id="splash">
-        <div class="logo-box"><img src="logo.png" onerror="this.src='https://via.placeholder.com/150?text=Libre+Tentacion'"></div>
-        <button class="btn-entrar" onclick="entrar()">Entrar al Catálogo</button>
+        <div class="logo-box">
+            <img src="logo.png" onerror="this.src='https://via.placeholder.com/150?text=Libre+Tentacion'">
+        </div>
+        <button class="btn-entrar" onclick="quitarSplash()">Entrar al Catálogo</button>
     </div>
 
     <header>
@@ -123,4 +125,37 @@
         <div id="salados" class="lista-productos">
             <div class="producto">
                 <img src="empanadas.png">
-                <div class="info"><h3>Docena Empanadas</h3>
+                <div class="info"><h3>Docena Empanadas</h3><p>$ 950</p></div>
+                <button class="btn-pedir" onclick="pedir('Docena de Empanadas')">Pedir</button>
+            </div>
+            <div class="producto">
+                <img src="porción de pollo.png">
+                <div class="info"><h3>Porción de Pollo</h3><p>$ 120</p></div>
+                <button class="btn-pedir" onclick="pedir('Porción de Pollo')">Pedir</button>
+            </div>
+            <div class="producto">
+                <img src="atun.png">
+                <div class="info"><h3>Tarta de Atún</h3><p>$ 600</p></div>
+                <button class="btn-pedir" onclick="pedir('Tarta de Atún')">Pedir</button>
+            </div>
+        </div>
+
+        <button class="categoria-btn" onclick="toggleCat('panes', this)">Panadería <span>▾</span></button>
+        <div id="panes" class="lista-productos">
+            <div class="producto">
+                <img src="pan.png">
+                <div class="info"><h3>Pan de Molde</h3><p>$ 250</p></div>
+                <button class="btn-pedir" onclick="pedir('Pan de Molde')">Pedir</button>
+            </div>
+        </div>
+
+    </div>
+
+    <nav class="nav-bottom">
+        <a href="#">🏠<br>Inicio</a>
+        <a href="https://wa.me/59891412283" style="color: #25d366;">💬<br>WhatsApp</a>
+    </nav>
+
+    <script>
+        // Esta es la función que arregla el problema del botón
+        function
