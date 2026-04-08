@@ -3,188 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-    <title>Libre Tentación | Premium Sin TACC</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Libre Tentación - Sin TACC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #c9a84c; /* Dorado */
-            --primary-dark: #aa8c2c;
-            --bg: #fdfaf4; /* Crema */
-            --accent: #2d2d2d;
+            --primary-color: #c9a84c;
+            --bg-color: #fdfaf4;
+            --text-main: #2d2d2d;
+            --text-secondary: #8e8e8e;
             --white: #ffffff;
-            --shadow: 0 8px 30px rgba(0,0,0,0.06);
+            --border-light: #eeeeee;
         }
 
-        body {
+        body, html {
             margin: 0; padding: 0;
             font-family: 'Montserrat', sans-serif;
-            background: var(--bg);
-            color: var(--accent);
+            background-color: var(--bg-color);
+            color: var(--text-main);
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- BOTÓN WHATSAPP PREMIUM --- */
-        .btn-wa {
-            position: fixed; bottom: 95px; right: 20px;
-            background: #25d366; color: white;
-            padding: 12px 20px; border-radius: 50px;
-            text-decoration: none; font-weight: 700;
-            display: flex; align-items: center; gap: 8px;
-            box-shadow: 0 10px 20px rgba(37,211,102,0.3);
-            z-index: 2000; animation: bounce 2s infinite;
-            font-size: 14px;
+        /* --- SPLASH --- */
+        #splash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-color); display: flex;
+            flex-direction: column; align-items: center; justify-content: center;
+            z-index: 9999; transition: all 0.8s ease;
         }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-8px);} }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('logo.png');
-            background-size: cover; background-position: center;
-            height: 220px; display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            color: white; text-align: center;
-            border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;
+        .logo-splash {
+            width: 180px; height: 180px; margin-bottom: 30px;
+            background: var(--white); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 30px rgba(201, 168, 76, 0.2);
+            border: 1px solid var(--primary-color);
+            overflow: hidden;
         }
-        .hero h1 { font-size: 28px; margin: 0; letter-spacing: 1px; }
-        .hero p { font-size: 10px; text-transform: uppercase; letter-spacing: 4px; background: var(--primary); padding: 4px 12px; border-radius: 20px; margin-top: 8px; }
-
-        /* --- CATEGORÍAS --- */
-        .cats { display: flex; overflow-x: auto; padding: 20px; gap: 12px; scrollbar-width: none; }
-        .cat-item { min-width: 100px; background: white; padding: 12px; border-radius: 20px; text-align: center; box-shadow: var(--shadow); border: 1px solid transparent; }
-        .cat-item.active { border-color: var(--primary); background: #fffcf0; }
-        .cat-item span { display: block; font-size: 20px; }
-        .cat-item h4 { margin: 5px 0 0; font-size: 11px; text-transform: uppercase; }
-
-        /* --- PRODUCTOS --- */
-        .grid { padding: 0 20px 120px; display: grid; gap: 18px; }
-        .card {
-            background: white; border-radius: 25px; padding: 12px;
-            display: flex; align-items: center; gap: 15px;
-            box-shadow: var(--shadow); position: relative;
+        .logo-splash img { width: 100%; height: 100%; object-fit: cover; }
+        .btn-enter {
+            background-color: var(--primary-color); color: white; border: none;
+            padding: 15px 50px; border-radius: 40px; font-size: 14px;
+            font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
         }
-        .badge { position: absolute; top: 0; right: 0; background: var(--primary); color: white; font-size: 8px; padding: 4px 10px; border-bottom-left-radius: 15px; font-weight: 700; }
-        
-        .img-box { width: 85px; height: 85px; border-radius: 18px; overflow: hidden; flex-shrink: 0; border: 1px solid #f0f0f0; }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        #splash.hide { opacity: 0; pointer-events: none; }
 
-        .info { flex-grow: 1; }
-        .info h3 { margin: 0; font-size: 15px; font-weight: 700; font-style: italic; }
-        .info .price { color: var(--primary-dark); font-weight: 700; font-size: 16px; margin: 4px 0; }
-        .info .desc { font-size: 10px; color: #888; }
+        /* --- HEADER --- */
+        .main-header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            display: flex; align-items: center; justify-content: center;
+            border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .header-logo {
+            width: 45px; height: 45px; border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            margin-right: 12px; overflow: hidden;
+        }
+        .header-logo img { width: 100%; height: 100%; object-fit: cover; }
+        .header-titles h1 { margin: 0; font-size: 18px; font-weight: 600; }
+        .header-titles p { margin: 0; font-size: 8px; letter-spacing: 2px; color: var(--primary-color); text-transform: uppercase; }
 
-        .add { background: var(--accent); color: white; width: 35px; height: 35px; border-radius: 12px; border: none; font-size: 18px; }
+        /* --- CATALOGO --- */
+        .menu-container { padding: 20px; padding-bottom: 100px; }
+        .acc-button {
+            width: 100%; background: var(--white);
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            padding: 20px; border-radius: 15px; display: flex;
+            justify-content: space-between; align-items: center;
+            font-size: 15px; margin-bottom: 12px; cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .acc-button.active { background-color: var(--primary-color); color: white; }
+        .acc-content { display: none; padding: 0 5px 15px; }
+
+        .product-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+        .prod-img {
+            width: 65px; height: 65px; border-radius: 50%;
+            object-fit: cover; margin-right: 15px;
+            border: 1px solid var(--border-light);
+            background: white;
+        }
+        .prod-info { flex-grow: 1; }
+        .prod-info h3 { margin: 0; font-size: 15px; font-weight: 400; font-style: italic; }
+        .prod-info p { margin: 4px 0 0; color: var(--primary-color); font-weight: 600; }
+        .btn-plus { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--primary-color); color: var(--primary-color); display: flex; align-items: center; justify-content: center; }
 
         /* --- NAV --- */
-        .nav { position: fixed; bottom: 15px; left: 15px; right: 15px; background: var(--accent); height: 60px; border-radius: 20px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .nav a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 9px; text-align: center; }
-        .nav a.active { color: var(--primary); }
-        .nav i { display: block; font-size: 18px; margin-bottom: 2px; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid var(--border-light); z-index: 1000; }
+        .nav-item { text-align: center; text-decoration: none; color: var(--text-secondary); font-size: 10px; width: 33%; }
+        .nav-icon { font-size: 20px; display: block; margin-bottom: 2px; }
 
-        /* --- CARRITO MODAL --- */
-        #cart-ui { position: fixed; bottom: -100%; left: 0; width: 100%; height: 75%; background: white; z-index: 3000; transition: 0.5s; border-top-left-radius: 35px; border-top-right-radius: 35px; padding: 25px; box-sizing: border-box; box-shadow: 0 -10px 30px rgba(0,0,0,0.1); }
-        #cart-ui.open { bottom: 0; }
-        .blur { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4); z-index: 2500; display:none; backdrop-filter: blur(4px); }
+        /* MODAL */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: none; }
+        #product-modal { position: fixed; bottom: -100%; left: 0; width: 100%; height: 80%; background: var(--bg-color); z-index: 10001; transition: 0.4s; border-top-left-radius: 30px; border-top-right-radius: 30px; overflow-y: auto; padding: 30px; box-sizing: border-box; }
+        #product-modal.show { bottom: 0; }
     </style>
 </head>
 <body>
 
-    <div class="hero">
-        <h1>Libre Tentación</h1>
-        <p>Artesanal • Sin TACC • Paysandú</p>
+    <div id="splash">
+        <div class="logo-splash"><img src="logo.png"></div>
+        <button class="btn-enter" onclick="startApp()">Entrar</button>
     </div>
 
-    <div class="cats">
-        <div class="cat-item active"><span>🧁</span><h4>Dulces</h4></div>
-        <div class="cat-item"><span>🥪</span><h4>Salados</h4></div>
-        <div class="cat-item"><span>🍞</span><h4>Panes</h4></div>
+    <div class="modal-overlay" id="overlay" onclick="closeModal()"></div>
+    <div id="product-modal">
+        <button onclick="closeModal()" style="float:right; background:none; border:none; font-size:20px;">✕</button>
+        <img id="modal-img" src="" style="width:100%; height:200px; object-fit:cover; border-radius:20px; margin-bottom:20px;">
+        <h2 id="modal-title" style="font-style:italic;"></h2>
+        <p id="modal-price" style="color:var(--primary-color); font-size:20px; font-weight:600;"></p>
+        <p id="modal-desc" style="color:#666;"></p>
+        <button onclick="addToCartFromModal()" style="width:100%; background:var(--primary-color); color:white; border:none; padding:15px; border-radius:30px; font-weight:600; margin-top:20px;">+ Agregar al pedido</button>
     </div>
 
-    <div class="grid">
-        <div class="card" onclick="add('Alfajores Maicena', 120)">
-            <div class="badge">LOS MÁS PEDIDOS</div>
-            <div class="img-box"><img src="alfajores.png"></div>
-            <div class="info">
-                <h3>Alfajores Maicena</h3>
-                <p class="desc">Clásicos con mucho coco</p>
-                <p class="price">$ 120</p>
+    <div class="app-content">
+        <header class="main-header">
+            <div class="header-logo"><img src="logo.png"></div>
+            <div class="header-titles">
+                <h1>Libre Tentación</h1>
+                <p>SIN TACC • PAYSANDÚ</p>
             </div>
-            <button class="add">+</button>
-        </div>
+        </header>
 
-        <div class="card" onclick="add('Muffin con Chispas', 90)">
-            <div class="img-box"><img src="muffins.png"></div>
-            <div class="info">
-                <h3>Muffin con Chispas</h3>
-                <p class="desc">Vainilla y chocolate premium</p>
-                <p class="price">$ 90</p>
+        <div class="menu-container">
+            <button class="acc-button" onclick="toggleSection('sec-dulce', this)">Dulces Tentaciones <span>▾</span></button>
+            <div id="sec-dulce" class="acc-content">
+                <div class="product-item" onclick="openProductModal('Alfajores de Maicena', 120, 'alfajores2.png', 'Clásicos de siempre. Mucho dulce de leche y coco rallado.')">
+                    <img src="alfajores2.png" class="prod-img">
+                    <div class="prod-info"><h3>Alfajores de Maicena</h3><p>$ 120</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+                <div class="product-item" onclick="openProductModal('Brownie', 600, 'brownie.png', 'Chocolate intenso, húmedo por dentro y crocante por fuera.')">
+                    <img src="brownie.png" class="prod-img">
+                    <div class="prod-info"><h3>Brownie Grande</h3><p>$ 600</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+                <div class="product-item" onclick="openProductModal('Muffin Clásico', 80, 'muffinsclásicos.png', 'Muffin artesanal de vainilla suave y esponjoso.')">
+                    <img src="muffinsclásicos.png" class="prod-img">
+                    <div class="prod-info"><h3>Muffin Clásico</h3><p>$ 80</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+                <div class="product-item" onclick="openProductModal('Muffin con Chispas', 90, 'muffins.png', 'Muffin de vainilla con abundantes chispas de chocolate.')">
+                    <img src="muffins.png" class="prod-img">
+                    <div class="prod-info"><h3>Muffin con Chispas</h3><p>$ 90</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
             </div>
-            <button class="add">+</button>
-        </div>
 
-        <div class="card" onclick="add('Pastafrola Mini', 100)">
-            <div class="img-box"><img src="pastaflorasmini.png"></div>
-            <div class="info">
-                <h3>Pastafrola Mini</h3>
-                <p class="desc">Dulce de membrillo artesanal</p>
-                <p class="price">$ 100</p>
+            <button class="acc-button" onclick="toggleSection('sec-salado', this)">Opciones Saladas <span>▾</span></button>
+            <div id="sec-salado" class="acc-content">
+                <div class="product-item" onclick="openProductModal('Docena de Empanadas', 950, 'empanadas.png', 'Docena surtida de empanadas caseras horneadas.')">
+                    <img src="empanadas.png" class="prod-img">
+                    <div class="prod-info"><h3>Empanadas (Docena)</h3><p>$ 950</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+                <div class="product-item" onclick="openProductModal('Porción de Pollo', 120, 'porción de pollo.png', 'Porción individual de tarta de pollo artesanal.')">
+                    <img src="porción de pollo.png" class="prod-img">
+                    <div class="prod-info"><h3>Porción de Pollo</h3><p>$ 120</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+                <div class="product-item" onclick="openProductModal('Tarta de Atún', 600, 'atun.png', 'Relleno de atún seleccionado con vegetales frescos.')">
+                    <img src="atun.png" class="prod-img">
+                    <div class="prod-info"><h3>Tarta de Atún</h3><p>$ 600</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+                <div class="product-item" onclick="openProductModal('Tarta de Zapallitos', 600, 'zapallito.png', 'Suave relleno de zapallitos con queso y huevo.')">
+                    <img src="zapallito.png" class="prod-img">
+                    <div class="prod-info"><h3>Tarta de Zapallitos</h3><p>$ 600</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
             </div>
-            <button class="add">+</button>
-        </div>
 
-        <div class="card" onclick="add('Docena de Empanadas', 950)">
-            <div class="badge">NUEVO</div>
-            <div class="img-box"><img src="empanadas.png"></div>
-            <div class="info">
-                <h3>Empanadas (Docena)</h3>
-                <p class="desc">Surtidas y horneadas</p>
-                <p class="price">$ 950</p>
-            </div>
-            <button class="add">+</button>
-        </div>
-
-        <div class="card" onclick="add('Pan de Molde', 250)">
-            <div class="img-box"><img src="pan.png"></div>
-            <div class="info">
-                <h3>Pan de Molde Grande</h3>
-                <p class="desc">Esponjoso y natural</p>
-                <p class="price">$ 250</p>
-            </div>
-            <button class="add">+</button>
-        </div>
-    </div>
-
-    <a href="https://wa.me/59891412283" class="btn-wa">
-        <span>Consultar ahora</span> 💬
-    </a>
-
-    <nav class="nav">
-        <a href="#" class="active"><i>🏠</i>INICIO</a>
-        <a href="javascript:openC()" style="position:relative;">
-            <div id="dot" style="position:absolute; top:12px; right:22%; background:var(--primary); color:white; width:15px; height:15px; border-radius:50%; font-size:9px; display:none; align-items:center; justify-content:center;">0</div>
-            <i>👜</i>PEDIDO</a>
-        <a href="https://wa.me/59891412283"><i>📍</i>CONTACTO</a>
-    </nav>
-
-    <div class="blur" id="blur" onclick="closeC()"></div>
-    <div id="cart-ui">
-        <h2 style="font-style:italic; margin-top:0;">Mi Pedido</h2>
-        <div id="items" style="max-height: 55%; overflow-y: auto; margin-bottom: 15px;"></div>
-        <div style="border-top: 2px solid #f9f9f9; padding-top: 15px;">
-            <div style="display:flex; justify-content:space-between; font-weight:700; font-size:18px;">
-                <span>Total:</span>
-                <span id="total">$ 0</span>
-            </div>
-            <button onclick="send()" style="width:100%; background:#25d366; color:white; border:none; padding:15px; border-radius:15px; margin-top:15px; font-weight:700;">
-                CONFIRMAR POR WHATSAPP
-            </button>
-        </div>
-    </div>
-
-    <script>
-        let cart = [];
-        function add(n, p) {
-            cart.push({n, p});
-            upd();
-        }
-        function upd() {
-            const
+            <button class="acc-button" onclick="toggleSection('sec-pan', this)">Panadería <span>▾</span></
