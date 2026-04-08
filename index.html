@@ -4,155 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <title>Libre Tentación - Sin TACC</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #c9a84c;
-            --bg-color: #fdfaf4;
-            --text-main: #2d2d2d;
-            --text-secondary: #8e8e8e;
-            --white: #ffffff;
-            --border-light: #eeeeee;
+            --gold: #c9a84c;
+            --crema: #fdfaf4;
+            --dark: #2d2d2d;
         }
 
         body, html {
             margin: 0; padding: 0;
             font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
+            background-color: var(--crema);
+            color: var(--dark);
         }
 
-        /* --- SPLASH --- */
+        /* --- PANTALLA DE ENTRADA --- */
         #splash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--bg-color); display: flex;
-            flex-direction: column; align-items: center; justify-content: center;
-            z-index: 9999; transition: opacity 0.8s ease;
+            background-color: var(--crema);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 9999;
         }
-        .logo-splash {
-            width: 180px; height: 180px; margin-bottom: 30px;
-            background: var(--white); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 30px rgba(201, 168, 76, 0.2);
-            border: 1px solid var(--primary-color);
-            overflow: hidden;
-        }
-        .logo-splash img { width: 100%; height: 100%; object-fit: cover; }
-        .btn-enter {
-            background-color: var(--primary-color); color: white; border: none;
-            padding: 15px 50px; border-radius: 40px; font-size: 14px;
-            font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-        }
-        #splash.hide { opacity: 0; pointer-events: none; }
-
-        /* --- HEADER --- */
-        .main-header {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px;
-            display: flex; align-items: center; justify-content: center;
-            border-bottom: 1px solid rgba(201, 168, 76, 0.1);
-            position: sticky; top: 0; z-index: 100;
-        }
-        .header-logo {
-            width: 45px; height: 45px; border-radius: 50%;
-            border: 2px solid var(--primary-color);
-            margin-right: 12px; overflow: hidden;
-        }
-        .header-logo img { width: 100%; height: 100%; object-fit: cover; }
-        .header-titles h1 { margin: 0; font-size: 18px; font-weight: 600; }
-        .header-titles p { margin: 0; font-size: 8px; letter-spacing: 2px; color: var(--primary-color); text-transform: uppercase; }
-
-        /* --- CATALOGO --- */
-        .menu-container { padding: 20px; padding-bottom: 100px; }
-        .acc-button {
-            width: 100%; background: var(--white);
-            border: 1px solid rgba(201, 168, 76, 0.15);
-            padding: 20px; border-radius: 15px; display: flex;
-            justify-content: space-between; align-items: center;
-            font-size: 15px; margin-bottom: 12px; cursor: pointer;
-            font-family: 'Montserrat', sans-serif;
-            transition: background 0.3s;
-        }
-        .acc-button.active { background-color: var(--primary-color); color: white; }
-        .acc-content { display: none; padding: 0 5px 15px; }
-
-        .product-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
-        .prod-img {
-            width: 65px; height: 65px; border-radius: 50%;
-            object-fit: cover; margin-right: 15px;
-            border: 1px solid var(--border-light);
+        .logo-box {
+            width: 150px; height: 150px; border-radius: 50%;
+            border: 2px solid var(--gold); overflow: hidden; margin-bottom: 20px;
             background: white;
         }
-        .prod-info { flex-grow: 1; }
-        .prod-info h3 { margin: 0; font-size: 15px; font-weight: 400; font-style: italic; }
-        .prod-info p { margin: 4px 0 0; color: var(--primary-color); font-weight: 600; }
-        .btn-plus { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--primary-color); color: var(--primary-color); display: flex; align-items: center; justify-content: center; }
+        .logo-box img { width: 100%; height: 100%; object-fit: cover; }
+        .btn-entrar {
+            background: var(--gold); color: white; border: none;
+            padding: 15px 40px; border-radius: 30px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2px; cursor: pointer;
+        }
 
-        /* --- NAV --- */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid var(--border-light); z-index: 1000; }
-        .nav-item { text-align: center; text-decoration: none; color: var(--text-secondary); font-size: 10px; width: 50%; }
-        .nav-icon { font-size: 20px; display: block; margin-bottom: 2px; }
+        /* --- CONTENIDO --- */
+        header {
+            background: white; padding: 15px; text-align: center;
+            border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100;
+        }
+        header h1 { margin: 0; font-size: 20px; color: var(--gold); }
 
-        /* MODAL */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: none; }
-        #product-modal { position: fixed; bottom: -100%; left: 0; width: 100%; height: 80%; background: var(--bg-color); z-index: 10001; transition: 0.4s; border-top-left-radius: 30px; border-top-right-radius: 30px; overflow-y: auto; padding: 30px; box-sizing: border-box; }
-        #product-modal.show { bottom: 0; }
+        .container { padding: 20px; padding-bottom: 100px; }
+
+        /* --- CATEGORIAS --- */
+        .categoria-btn {
+            width: 100%; background: white; border: 1px solid #eee;
+            padding: 20px; border-radius: 15px; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 16px;
+        }
+        .categoria-btn.active { background: var(--gold); color: white; }
+        
+        .lista-productos { display: none; padding: 10px 0; }
+
+        /* --- PRODUCTO --- */
+        .producto {
+            display: flex; align-items: center; background: white;
+            padding: 10px; border-radius: 15px; margin-bottom: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .producto img {
+            width: 70px; height: 70px; border-radius: 12px;
+            object-fit: cover; margin-right: 15px; background: #f9f9f9;
+        }
+        .info { flex: 1; }
+        .info h3 { margin: 0; font-size: 14px; font-weight: 400; font-style: italic; }
+        .info p { margin: 5px 0 0; color: var(--gold); font-weight: 700; }
+        
+        .btn-pedir {
+            background: #25d366; color: white; border: none;
+            padding: 8px 12px; border-radius: 10px; font-size: 12px;
+        }
+
+        /* BARRA INFERIOR */
+        .nav-bottom {
+            position: fixed; bottom: 0; width: 100%; background: white;
+            display: flex; justify-content: space-around; padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+        .nav-bottom a { text-decoration: none; color: #888; font-size: 12px; text-align: center; }
     </style>
 </head>
 <body>
 
     <div id="splash">
-        <div class="logo-splash"><img src="logo.png"></div>
-        <button class="btn-enter" onclick="startApp()">Entrar</button>
+        <div class="logo-box"><img src="logo.png" onerror="this.src='https://via.placeholder.com/150?text=Libre+Tentacion'"></div>
+        <button class="btn-entrar" onclick="entrar()">Entrar al Catálogo</button>
     </div>
 
-    <div class="modal-overlay" id="overlay" onclick="closeModal()"></div>
-    <div id="product-modal">
-        <button onclick="closeModal()" style="float:right; background:none; border:none; font-size:24px;">✕</button>
-        <img id="modal-img" src="" style="width:100%; height:200px; object-fit:cover; border-radius:20px; margin-bottom:20px;">
-        <h2 id="modal-title" style="font-style:italic;"></h2>
-        <p id="modal-price" style="color:var(--primary-color); font-size:20px; font-weight:600;"></p>
-        <p id="modal-desc" style="color:#666;"></p>
-        <button onclick="addToCartFromModal()" style="width:100%; background:var(--primary-color); color:white; border:none; padding:15px; border-radius:30px; font-weight:600; margin-top:20px;">+ Agregar al pedido</button>
-    </div>
+    <header>
+        <h1>Libre Tentación</h1>
+        <small style="letter-spacing: 2px;">SIN TACC • PAYSANDÚ</small>
+    </header>
 
-    <div class="app-content">
-        <header class="main-header">
-            <div class="header-logo"><img src="logo.png"></div>
-            <div class="header-titles">
-                <h1>Libre Tentación</h1>
-                <p>SIN TACC • PAYSANDÚ</p>
+    <div class="container">
+        
+        <button class="categoria-btn" onclick="toggleCat('dulces', this)">Dulces Tentaciones <span>▾</span></button>
+        <div id="dulces" class="lista-productos">
+            <div class="producto">
+                <img src="alfajores2.png">
+                <div class="info"><h3>Alfajores de Maicena</h3><p>$ 120</p></div>
+                <button class="btn-pedir" onclick="pedir('Alfajores de Maicena')">Pedir</button>
             </div>
-        </header>
-
-        <div class="menu-container">
-            <button class="acc-button" onclick="toggleSection('sec-dulce', this)">Dulces Tentaciones <span>▾</span></button>
-            <div id="sec-dulce" class="acc-content">
-                <div class="product-item" onclick="openProductModal('Alfajores de Maicena', 120, 'alfajores2.png', 'Clásicos de siempre. Mucho dulce de leche y coco rallado.')">
-                    <img src="alfajores2.png" class="prod-img">
-                    <div class="prod-info"><h3>Alfajores de Maicena</h3><p>$ 120</p></div>
-                    <div class="btn-plus">+</div>
-                </div>
-                <div class="product-item" onclick="openProductModal('Brownie', 600, 'brownie.png', 'Chocolate intenso, húmedo por dentro y crocante por fuera.')">
-                    <img src="brownie.png" class="prod-img">
-                    <div class="prod-info"><h3>Brownie Grande</h3><p>$ 600</p></div>
-                    <div class="btn-plus">+</div>
-                </div>
-                <div class="product-item" onclick="openProductModal('Muffin Clásico', 80, 'muffinsclásicos.png', 'Muffin artesanal de vainilla suave y esponjoso.')">
-                    <img src="muffinsclásicos.png" class="prod-img">
-                    <div class="prod-info"><h3>Muffin Clásico</h3><p>$ 80</p></div>
-                    <div class="btn-plus">+</div>
-                </div>
-                <div class="product-item" onclick="openProductModal('Muffin con Chispas', 90, 'muffins.png', 'Muffin de vainilla con abundantes chispas de chocolate.')">
-                    <img src="muffins.png" class="prod-img">
-                    <div class="prod-info"><h3>Muffin con Chispas</h3><p>$ 90</p></div>
-                    <div class="btn-plus">+</div>
-                </div>
+            <div class="producto">
+                <img src="brownie.png">
+                <div class="info"><h3>Brownie</h3><p>$ 600</p></div>
+                <button class="btn-pedir" onclick="pedir('Brownie')">Pedir</button>
             </div>
+            <div class="producto">
+                <img src="muffinsclásicos.png">
+                <div class="info"><h3>Muffin Clásico</h3><p>$ 80</p></div>
+                <button class="btn-pedir" onclick="pedir('Muffin Clásico')">Pedir</button>
+            </div>
+        </div>
 
-            <button class="acc-button" onclick="toggleSection('sec-salado', this)">Opciones Saladas <span>▾</span></button>
+        <button class="categoria-btn" onclick="toggleCat('salados', this)">Opciones Saladas <span>▾</span></button>
+        <div id="salados" class="lista-productos">
+            <div class="producto">
+                <img src="empanadas.png">
+                <div class="info"><h3>Docena Empanadas</h3>
