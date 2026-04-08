@@ -7,12 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #D4AF37; /* Dorado Oro */
+            --primary: #c9a84c; /* Dorado */
             --primary-dark: #aa8c2c;
-            --bg: #fcf9f2;
+            --bg: #fdfaf4; /* Crema */
             --accent: #2d2d2d;
-            --glass: rgba(255, 255, 255, 0.8);
-            --shadow: 0 8px 30px rgba(0,0,0,0.08);
+            --white: #ffffff;
+            --shadow: 0 8px 30px rgba(0,0,0,0.06);
         }
 
         body {
@@ -20,212 +20,70 @@
             font-family: 'Montserrat', sans-serif;
             background: var(--bg);
             color: var(--accent);
-            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* --- BOTÓN WHATSAPP ELITE --- */
-        .btn-whatsapp-fixed {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            background: #25d366;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 10px 25px rgba(37,211,102,0.4);
-            z-index: 2000;
-            animation: bounce 2s infinite;
+        /* --- BOTÓN WHATSAPP PREMIUM --- */
+        .btn-wa {
+            position: fixed; bottom: 95px; right: 20px;
+            background: #25d366; color: white;
+            padding: 12px 20px; border-radius: 50px;
+            text-decoration: none; font-weight: 700;
+            display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 10px 20px rgba(37,211,102,0.3);
+            z-index: 2000; animation: bounce 2s infinite;
+            font-size: 14px;
         }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-8px);} }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-10px);}
-        }
-
-        /* --- HEADER IMPACTANTE --- */
+        /* --- HERO SECTION --- */
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('logo.png');
-            background-size: cover;
-            background-position: center;
-            height: 250px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-            border-bottom-left-radius: 40px;
-            border-bottom-right-radius: 40px;
-            box-shadow: var(--shadow);
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('logo.png');
+            background-size: cover; background-position: center;
+            height: 220px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            color: white; text-align: center;
+            border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;
         }
+        .hero h1 { font-size: 28px; margin: 0; letter-spacing: 1px; }
+        .hero p { font-size: 10px; text-transform: uppercase; letter-spacing: 4px; background: var(--primary); padding: 4px 12px; border-radius: 20px; margin-top: 8px; }
 
-        .hero h1 { 
-            font-size: 32px; 
-            margin: 0; 
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        /* --- CATEGORÍAS --- */
+        .cats { display: flex; overflow-x: auto; padding: 20px; gap: 12px; scrollbar-width: none; }
+        .cat-item { min-width: 100px; background: white; padding: 12px; border-radius: 20px; text-align: center; box-shadow: var(--shadow); border: 1px solid transparent; }
+        .cat-item.active { border-color: var(--primary); background: #fffcf0; }
+        .cat-item span { display: block; font-size: 20px; }
+        .cat-item h4 { margin: 5px 0 0; font-size: 11px; text-transform: uppercase; }
+
+        /* --- PRODUCTOS --- */
+        .grid { padding: 0 20px 120px; display: grid; gap: 18px; }
+        .card {
+            background: white; border-radius: 25px; padding: 12px;
+            display: flex; align-items: center; gap: 15px;
+            box-shadow: var(--shadow); position: relative;
         }
-
-        .hero p { 
-            font-size: 12px; 
-            text-transform: uppercase; 
-            letter-spacing: 5px;
-            background: var(--primary);
-            padding: 5px 15px;
-            border-radius: 20px;
-            margin-top: 10px;
-        }
-
-        /* --- CATEGORÍAS TIPO APP --- */
-        .categories-scroll {
-            display: flex;
-            overflow-x: auto;
-            padding: 20px;
-            gap: 15px;
-            scrollbar-width: none;
-        }
-
-        .cat-card {
-            min-width: 120px;
-            background: white;
-            padding: 15px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            border: 1px solid transparent;
-            transition: 0.3s;
-        }
-
-        .cat-card.active {
-            border-color: var(--primary);
-            background: #fffdf5;
-        }
-
-        .cat-card span { display: block; font-size: 24px; margin-bottom: 5px; }
-        .cat-card h4 { margin: 0; font-size: 12px; text-transform: uppercase; }
-
-        /* --- PRODUCTOS PREMIUM --- */
-        .product-grid {
-            padding: 0 20px 100px;
-            display: grid;
-            gap: 20px;
-        }
-
-        .card-premium {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border: 1px solid white;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .badge-popular {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: var(--primary);
-            color: white;
-            font-size: 9px;
-            padding: 5px 15px;
-            border-bottom-left-radius: 15px;
-            font-weight: 700;
-        }
-
-        .img-container {
-            width: 90px;
-            height: 90px;
-            border-radius: 20px;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .img-container img {
-            width: 100%; height: 100%; object-fit: cover;
-        }
+        .badge { position: absolute; top: 0; right: 0; background: var(--primary); color: white; font-size: 8px; padding: 4px 10px; border-bottom-left-radius: 15px; font-weight: 700; }
+        
+        .img-box { width: 85px; height: 85px; border-radius: 18px; overflow: hidden; flex-shrink: 0; border: 1px solid #f0f0f0; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
 
         .info { flex-grow: 1; }
-        .info h3 { margin: 0; font-size: 17px; font-weight: 700; }
-        .info .price { color: var(--primary-dark); font-weight: 700; font-size: 18px; margin: 5px 0; }
-        .info .tag { font-size: 10px; color: #888; text-transform: uppercase; }
+        .info h3 { margin: 0; font-size: 15px; font-weight: 700; font-style: italic; }
+        .info .price { color: var(--primary-dark); font-weight: 700; font-size: 16px; margin: 4px 0; }
+        .info .desc { font-size: 10px; color: #888; }
 
-        .btn-add {
-            background: var(--accent);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            border: none;
-        }
+        .add { background: var(--accent); color: white; width: 35px; height: 35px; border-radius: 12px; border: none; font-size: 18px; }
 
-        /* --- NAV BAR MODERNA --- */
-        .nav-modern {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: var(--accent);
-            height: 65px;
-            border-radius: 25px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 1000;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        }
+        /* --- NAV --- */
+        .nav { position: fixed; bottom: 15px; left: 15px; right: 15px; background: var(--accent); height: 60px; border-radius: 20px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .nav a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 9px; text-align: center; }
+        .nav a.active { color: var(--primary); }
+        .nav i { display: block; font-size: 18px; margin-bottom: 2px; }
 
-        .nav-modern a {
-            color: rgba(255,255,255,0.6);
-            text-decoration: none;
-            font-size: 10px;
-            text-align: center;
-        }
-
-        .nav-modern a.active { color: var(--primary); }
-        .nav-modern i { display: block; font-size: 20px; margin-bottom: 2px; }
-
-        .cart-count {
-            position: absolute;
-            top: 15px;
-            right: 25%;
-            background: var(--primary);
-            color: white;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            font-size: 10px;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* Modales ajustados */
-        #modal-cart {
-            position: fixed; bottom: -100%; left: 0; width: 100%; height: 80%;
-            background: white; z-index: 3000; transition: 0.5s;
-            border-top-left-radius: 40px; border-top-right-radius: 40px;
-            padding: 30px; box-sizing: border-box;
-        }
-        #modal-cart.show { bottom: 0; }
-        .overlay {
-            position: fixed; top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.5); z-index: 2500; display:none;
-        }
+        /* --- CARRITO MODAL --- */
+        #cart-ui { position: fixed; bottom: -100%; left: 0; width: 100%; height: 75%; background: white; z-index: 3000; transition: 0.5s; border-top-left-radius: 35px; border-top-right-radius: 35px; padding: 25px; box-sizing: border-box; box-shadow: 0 -10px 30px rgba(0,0,0,0.1); }
+        #cart-ui.open { bottom: 0; }
+        .blur { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4); z-index: 2500; display:none; backdrop-filter: blur(4px); }
     </style>
 </head>
 <body>
@@ -235,137 +93,98 @@
         <p>Artesanal • Sin TACC • Paysandú</p>
     </div>
 
-    <div class="categories-scroll">
-        <div class="cat-card active"><span>🧁</span><h4>Dulces</h4></div>
-        <div class="cat-card"><span>🥪</span><h4>Salados</h4></div>
-        <div class="cat-card"><span>🍞</span><h4>Panes</h4></div>
-        <div class="cat-card"><span>🎁</span><h4>Combos</h4></div>
+    <div class="cats">
+        <div class="cat-item active"><span>🧁</span><h4>Dulces</h4></div>
+        <div class="cat-item"><span>🥪</span><h4>Salados</h4></div>
+        <div class="cat-item"><span>🍞</span><h4>Panes</h4></div>
     </div>
 
-    <div class="product-grid" id="main-grid">
-        <div class="card-premium" onclick="addToCart('Budín Artesanal', 250)">
-            <div class="badge-popular">EL MÁS VENDIDO</div>
-            <div class="img-container"><img src="48096.jpg"></div>
+    <div class="grid">
+        <div class="card" onclick="add('Alfajores Maicena', 120)">
+            <div class="badge">LOS MÁS PEDIDOS</div>
+            <div class="img-box"><img src="alfajores.png"></div>
             <div class="info">
-                <span class="tag">Dulzura Total</span>
-                <h3>Budín Artesanal</h3>
-                <p class="price">$ 250</p>
+                <h3>Alfajores Maicena</h3>
+                <p class="desc">Clásicos con mucho coco</p>
+                <p class="price">$ 120</p>
             </div>
-            <button class="btn-add">+</button>
+            <button class="add">+</button>
         </div>
 
-        <div class="card-premium" onclick="addToCart('Muffins con Chispas', 90)">
-            <div class="img-container"><img src="48095.jpg"></div>
+        <div class="card" onclick="add('Muffin con Chispas', 90)">
+            <div class="img-box"><img src="muffins.png"></div>
             <div class="info">
-                <span class="tag">Para el mate</span>
-                <h3>Muffins con Chispas</h3>
+                <h3>Muffin con Chispas</h3>
+                <p class="desc">Vainilla y chocolate premium</p>
                 <p class="price">$ 90</p>
             </div>
-            <button class="btn-add">+</button>
+            <button class="add">+</button>
         </div>
 
-        <div class="card-premium" onclick="addToCart('Docena de Empanadas', 950)">
-            <div class="badge-popular">NUEVO</div>
-            <div class="img-container"><img src="48037.jpg"></div>
+        <div class="card" onclick="add('Pastafrola Mini', 100)">
+            <div class="img-box"><img src="pastaflorasmini.png"></div>
             <div class="info">
-                <span class="tag">Salado Gourmet</span>
+                <h3>Pastafrola Mini</h3>
+                <p class="desc">Dulce de membrillo artesanal</p>
+                <p class="price">$ 100</p>
+            </div>
+            <button class="add">+</button>
+        </div>
+
+        <div class="card" onclick="add('Docena de Empanadas', 950)">
+            <div class="badge">NUEVO</div>
+            <div class="img-box"><img src="empanadas.png"></div>
+            <div class="info">
                 <h3>Empanadas (Docena)</h3>
+                <p class="desc">Surtidas y horneadas</p>
                 <p class="price">$ 950</p>
             </div>
-            <button class="btn-add">+</button>
+            <button class="add">+</button>
+        </div>
+
+        <div class="card" onclick="add('Pan de Molde', 250)">
+            <div class="img-box"><img src="pan.png"></div>
+            <div class="info">
+                <h3>Pan de Molde Grande</h3>
+                <p class="desc">Esponjoso y natural</p>
+                <p class="price">$ 250</p>
+            </div>
+            <button class="add">+</button>
         </div>
     </div>
 
-    <a href="https://wa.me/59891412283" class="btn-whatsapp-fixed">
-        <span>Pedir ahora</span> 💬
+    <a href="https://wa.me/59891412283" class="btn-wa">
+        <span>Consultar ahora</span> 💬
     </a>
 
-    <nav class="nav-modern">
+    <nav class="nav">
         <a href="#" class="active"><i>🏠</i>INICIO</a>
-        <a href="javascript:openCart()" style="position:relative;">
-            <div class="cart-count" id="count">0</div>
-            <i>👜</i>MI PEDIDO
-        </a>
-        <a href="https://wa.me/59891412283"><i>📍</i>UBICACIÓN</a>
+        <a href="javascript:openC()" style="position:relative;">
+            <div id="dot" style="position:absolute; top:12px; right:22%; background:var(--primary); color:white; width:15px; height:15px; border-radius:50%; font-size:9px; display:none; align-items:center; justify-content:center;">0</div>
+            <i>👜</i>PEDIDO</a>
+        <a href="https://wa.me/59891412283"><i>📍</i>CONTACTO</a>
     </nav>
 
-    <div class="overlay" id="overlay" onclick="closeCart()"></div>
-    <div id="modal-cart">
-        <h2 style="font-style:italic">Tu Pedido</h2>
-        <div id="cart-items" style="max-height: 60%; overflow-y: auto; margin-bottom: 20px;"></div>
-        <div style="border-top: 1px solid #eee; padding-top: 20px;">
-            <div style="display:flex; justify-content:space-between; font-weight:700; font-size:20px;">
+    <div class="blur" id="blur" onclick="closeC()"></div>
+    <div id="cart-ui">
+        <h2 style="font-style:italic; margin-top:0;">Mi Pedido</h2>
+        <div id="items" style="max-height: 55%; overflow-y: auto; margin-bottom: 15px;"></div>
+        <div style="border-top: 2px solid #f9f9f9; padding-top: 15px;">
+            <div style="display:flex; justify-content:space-between; font-weight:700; font-size:18px;">
                 <span>Total:</span>
-                <span id="total-price">$ 0</span>
+                <span id="total">$ 0</span>
             </div>
-            <button onclick="sendOrder()" style="width:100%; background:#25d366; color:white; border:none; padding:18px; border-radius:20px; margin-top:20px; font-weight:700; font-size:16px;">
-                CONFIRMAR PEDIDO
+            <button onclick="send()" style="width:100%; background:#25d366; color:white; border:none; padding:15px; border-radius:15px; margin-top:15px; font-weight:700;">
+                CONFIRMAR POR WHATSAPP
             </button>
         </div>
     </div>
 
     <script>
         let cart = [];
-        
-        function addToCart(name, price) {
-            cart.push({name, price});
-            updateUI();
-            // Animación visual al agregar
-            const badge = document.getElementById('count');
-            badge.style.transform = 'scale(1.5)';
-            setTimeout(() => badge.style.transform = 'scale(1)', 200);
+        function add(n, p) {
+            cart.push({n, p});
+            upd();
         }
-
-        function updateUI() {
-            const count = document.getElementById('count');
-            count.innerText = cart.length;
-            count.style.display = cart.length > 0 ? 'flex' : 'none';
-            renderCart();
-        }
-
-        function renderCart() {
-            const container = document.getElementById('cart-items');
-            const totalEl = document.getElementById('total-price');
-            let total = 0;
-            container.innerHTML = '';
-            
-            cart.forEach((item, index) => {
-                total += item.price;
-                container.innerHTML += `
-                    <div style="display:flex; justify-content:space-between; margin-bottom:15px; align-items:center">
-                        <div>
-                            <p style="margin:0; font-weight:600">${item.name}</p>
-                            <p style="margin:0; font-size:12px; color:var(--primary-dark)">$ ${item.price}</p>
-                        </div>
-                        <button onclick="removeItem(${index})" style="background:none; border:none; color:red">✕</button>
-                    </div>
-                `;
-            });
-            totalEl.innerText = '$ ' + total;
-        }
-
-        function removeItem(index) {
-            cart.splice(index, 1);
-            updateUI();
-        }
-
-        function openCart() {
-            document.getElementById('modal-cart').classList.add('show');
-            document.getElementById('overlay').style.display = 'block';
-        }
-
-        function closeCart() {
-            document.getElementById('modal-cart').classList.remove('show');
-            document.getElementById('overlay').style.display = 'none';
-        }
-
-        function sendOrder() {
-            if(cart.length === 0) return alert("¡El pedido está vacío!");
-            let msg = "¡Hola Libre Tentación! 🥐 Quisiera el siguiente pedido:\n\n";
-            cart.forEach(i => msg += `• ${i.name} ($${i.price})\n`);
-            msg += `\n*Total estimado: ${document.getElementById('total-price').innerText}*`;
-            window.location.href = `https://wa.me/59891412283?text=${encodeURIComponent(msg)}`;
-        }
-    </script>
-</body>
-</html>
+        function upd() {
+            const
