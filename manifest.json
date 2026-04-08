@@ -1,0 +1,21 @@
+{
+  "name": "Libre Tentación",
+  "short_name": "LibreTentacion",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#fdfaf4",
+  "theme_color": "#c9a84c",
+  "description": "Catálogo de productos Sin TACC",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

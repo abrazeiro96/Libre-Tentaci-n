@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Libre Tentación - Sin TACC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #c9a84c; /* Dorado */
+            --bg-color: #fdfaf4;      /* Crema */
+            --text-main: #2d2d2d;
+            --text-secondary: #8e8e8e;
+            --white: #ffffff;
+            --border-light: #eeeeee;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            background-image:
+                radial-gradient(circle at 2px 2px, rgba(201, 168, 76, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+            color: var(--text-main);
+            height: 100%;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* --- SPLASH --- */
+        #splash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-color); display: flex;
+            flex-direction: column; align-items: center; justify-content: center;
+            z-index: 9999; transition: all 1s cubic-bezier(0.9, 0, 0.1, 1);
+        }
+        .logo-splash {
+            width: 220px; height: 220px; margin-bottom: 50px;
+            background: var(--white); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 15px 40px rgba(201, 168, 76, 0.2);
+            border: 1px solid var(--primary-color);
+            animation: pulse 3s infinite ease-in-out;
+            overflow: hidden;
+        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .logo-splash img { width: 100%; height: 100%; object-fit: cover; }
+        .btn-enter {
+            background-color: var(--primary-color); color: white; border: none;
+            padding: 18px 70px; border-radius: 40px; font-size: 14px;
+            font-weight: 600; letter-spacing: 4px; text-transform: uppercase;
+            cursor: pointer; box-shadow: 0 6px 20px rgba(201, 168, 76, 0.3);
+            position: relative; overflow: hidden;
+        }
+        .btn-enter::after {
+            content: ''; position: absolute; top: -50%; left: -60%; width: 20%; height: 200%;
+            background: rgba(255,255,255,0.2); transform: rotate(30deg); animation: shine 4s infinite;
+        }
+        @keyframes shine { 0% { left: -60%; } 20% { left: 120%; } 100% { left: 120%; } }
+        #splash.hide { transform: scale(1.2); opacity: 0; pointer-events: none; }
+
+        /* --- LAYOUT --- */
+        .app-content { padding-bottom: 100px; }
+        .main-header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            display: flex; align-items: center; justify-content: center;
+            border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .header-logo {
+            width: 50px; height: 50px; border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            margin-right: 15px; overflow: hidden;
+            box-shadow: 0 4px 12px rgba(201, 168, 76, 0.2);
+        }
+        .header-logo img { width: 100%; height: 100%; object-fit: cover; }
+        .header-titles h1 { margin: 0; font-size: 20px; font-weight: 600; color: #1a1a1a; letter-spacing: 0.5px; }
+        .header-titles p { margin: 2px 0 0; font-size: 8.5px; letter-spacing: 3px; color: var(--primary-color); text-transform: uppercase; font-weight: 400; }
+
+        /* --- CATALOGO --- */
+        .menu-container { padding: 25px 20px; }
+        .section-divider { display: flex; align-items: center; text-align: center; margin: 10px 0 30px; }
+        .section-divider::before, .section-divider::after {
+            content: ''; flex: 1; border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+        }
+        .section-divider span {
+            padding: 0 20px; font-size: 14px; letter-spacing: 4px;
+            font-weight: 400; color: var(--primary-color); text-transform: uppercase;
+        }
+
+        .acc-button {
+            width: 100%; background: var(--white);
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            padding: 22px; border-radius: 18px; display: flex;
+            justify-content: space-between; align-items: center; font-size: 16px;
+            font-weight: 400; margin-bottom: 18px; cursor: pointer;
+            box-shadow: 0 6px 15px rgba(201, 168, 76, 0.05);
+            transition: all 0.3s ease;
+        }
+        .acc-button span { transition: transform 0.3s ease; color: var(--primary-color); }
+        .acc-button.active {
+            background-color: var(--primary-color); color: white; border: none;
+            box-shadow: 0 10px 20px rgba(201, 168, 76, 0.2);
+        }
+        .acc-button.active span { transform: rotate(180deg); color: white; }
+        .acc-content { display: none; padding: 5px 0 20px; }
+
+        .product-item { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+        .prod-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
+            margin-right: 15px;
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            flex-shrink: 0; /* Evita que la imagen se achate */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            filter: brightness(1.08) contrast(1.05) saturate(1.15) drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            transition: transform 0.3s ease;
+            image-rendering: -webkit-optimize-contrast;
+        }
+        .product-item:active .prod-img {
+            transform: scale(1.05);
+        }
+        .prod-info { flex-grow: 1; min-width: 0; /* Permite que el texto respete el espacio */ }
+        .prod-info h3 { margin: 0; font-size: 16px; font-weight: 400; font-style: italic; }
+        .prod-info p { margin: 4px 0 0; color: var(--primary-color); font-weight: 600; font-size: 15px; }
+        .btn-plus { width: 35px; height: 35px; border-radius: 50%; border: 1px solid var(--primary-color); color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+
+        /* --- INFO SECTIONS --- */
+        .info-box { padding: 30px 20px; background-color: rgba(201, 168, 76, 0.04); text-align: center; margin: 20px 0; }
+        .info-box h2 { font-weight: 300; font-style: italic; font-size: 22px; margin-bottom: 15px; }
+        .info-box p { font-size: 14px; line-height: 1.6; color: #555; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 25px; }
+        .info-card { background: white; padding: 15px 5px; border-radius: 15px; font-size: 11px; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+
+        /* --- WATERMARK --- */
+        .watermark {
+            position: fixed;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            opacity: 0.04;
+            filter: grayscale(1) blur(1px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- MODALES --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
+            z-index: 10000; display: none; opacity: 0; transition: opacity 0.3s;
+        }
+        .modal-overlay.show { display: block; opacity: 1; }
+
+        #product-modal, #cart-modal {
+            position: fixed; bottom: -100%; left: 0; width: 100%; height: 88%;
+            background: var(--bg-color); z-index: 10001;
+            transition: bottom 0.5s cubic-bezier(0.8, 0, 0.2, 1);
+            border-top-left-radius: 35px; border-top-right-radius: 35px;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.1); display: flex; flex-direction: column;
+        }
+        #product-modal.show, #cart-modal.show { bottom: 0; }
+
+        .modal-header-img { width: 100%; height: 280px; position: relative; border-top-left-radius: 35px; border-top-right-radius: 35px; overflow: hidden; }
+        .modal-header-img img { width: 100%; height: 100%; object-fit: cover; }
+        .btn-close { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.9); border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 20px; }
+
+        .modal-body { padding: 30px; flex-grow: 1; overflow-y: auto; }
+        .modal-footer { padding: 20px 30px 40px; background: var(--white); border-top: 1px solid var(--border-light); }
+        .btn-action { width: 100%; background: var(--primary-color); color: white; border: none; padding: 20px; border-radius: 40px; font-weight: 600; font-size: 16px; box-shadow: 0 6px 15px rgba(201, 168, 76, 0.3); }
+
+        /* --- CARRITO --- */
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--border-light); }
+        .cart-total { margin-top: 25px; display: flex; justify-content: space-between; font-size: 20px; font-weight: 600; color: var(--text-main); }
+
+        /* --- NAV --- */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); display: flex; justify-content: space-around; padding: 12px 0 15px; border-top: 1px solid var(--border-light); z-index: 1000; }
+        .nav-item { text-align: center; text-decoration: none; color: var(--text-secondary); font-size: 11px; width: 33%; position: relative; }
+        .nav-item.active { color: var(--primary-color); }
+        .nav-icon { font-size: 22px; display: block; margin-bottom: 4px; }
+        #cart-badge { position: absolute; top: -5px; right: 28%; background: #e74c3c; color: white; font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: none; align-items: center; justify-content: center; font-weight: bold; }
+
+    </style>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#c9a84c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Libre Tentación">
+    <link rel="apple-touch-icon" href="logo.png">
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registrado'))
+                    .catch(err => console.log('Error al registrar SW', err));
+            });
+        }
+    </script>
+</head>
+<body>
+
+    <!-- MARCA DE AGUA FONDO -->
+    <img src="logo.png" class="watermark">
+
+    <!-- PANTALLA DE ENTRADA -->
+    <div id="splash">
+        <div class="logo-splash"><img src="logo.png"></div>
+        <button class="btn-enter" onclick="startApp()">Entrar</button>
+    </div>
+
+    <div class="modal-overlay" onclick="closeModals()"></div>
+
+    <!-- MODAL PRODUCTO -->
+    <div id="product-modal">
+        <div class="modal-header-img">
+            <img id="modal-img" src="">
+            <button class="btn-close" onclick="closeModals()">✕</button>
+        </div>
+        <div class="modal-body">
+            <h2 id="modal-title" style="margin:0 0 10px; font-size:26px; font-style:italic;"></h2>
+            <p id="modal-price" style="color:var(--primary-color); font-size:22px; font-weight:600; margin-bottom:20px;"></p>
+            <p id="modal-desc" style="color:#666; line-height:1.7; font-size:15px;"></p>
+            <div style="margin-top:25px; display:flex; align-items:center; gap:10px; color:var(--primary-color); font-size:13px; font-weight:600;">
+                <span>🍃 Sin TACC</span> • <span>🏠 Artesanal</span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-action" id="btn-modal-add">+ Agregar al pedido</button>
+        </div>
+    </div>
+
+    <!-- MODAL CARRITO -->
+    <div id="cart-modal">
+        <div style="padding: 25px 30px 10px; display: flex; justify-content: space-between; align-items: center;">
+            <h2 style="margin:0; font-style:italic; font-size:24px;">Mi Pedido</h2>
+            <button style="background:none; border:none; font-size:24px;" onclick="closeModals()">✕</button>
+        </div>
+        <div class="modal-body" id="cart-list">
+            <!-- Items del carrito -->
+        </div>
+        <div class="modal-footer" id="cart-footer" style="display:none;">
+            <div class="cart-total">
+                <span>Total estimado:</span>
+                <span id="cart-total-amount">$ 0</span>
+            </div>
+            <button class="btn-action" style="margin-top:20px; background:#25d366; box-shadow: 0 6px 20px rgba(37,211,102,0.3);" onclick="sendWhatsApp()">
+                Confirmar por WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <div class="app-content">
+        <header class="main-header">
+            <div class="header-logo"><img src="logo.png"></div>
+            <div class="header-titles">
+                <h1>Libre Tentación</h1>
+                <p>SIN TACC • PAYSANDÚ</p>
+            </div>
+        </header>
+
+        <div class="menu-container">
+            <div class="section-divider"><span>Nuestra Carta</span></div>
+
+            <!-- DULCES -->
+            <button class="acc-button" onclick="toggleSection('sec-dulce', this)">Dulces Tentaciones <span>▾</span></button>
+            <div id="sec-dulce" class="acc-content">
+                <div class="product-item" onclick="openProductModal('Alfajores de Maicena', 120, 'alfajores.png', 'Clásicos de siempre. Mucho dulce de leche y coco rallado.')">
+                    <img src="alfajores.png" class="prod-img">
+                    <div class="prod-info"><h3>Alfajores de Maicena</h3><p>$ 120</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+                <div class="product-item" onclick="openProductModal('Alfajores de Chocolate', 150, 'alfajores2.png', 'Bañados en chocolate negro premium con abundante dulce de leche.')">
+                    <img src="alfajores2.png" class="prod-img">
+                    <div class="prod-info"><h3>Alfajores de Chocolate</h3><p>$ 150</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+                <div class="product-item" onclick="openProductModal('Brownie', 600, 'brownie.png', 'Chocolate intenso, húmedo por dentro y crocante por fuera.')">
+                    <img src="brownie.png" class="prod-img">
+                    <div class="prod-info"><h3>Brownie Grande</h3><p>$ 600</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+                <!-- PASTAFROLA MINI CON SUB-MENU -->
+                <div class="product-item" style="background: rgba(201, 168, 76, 0.05); padding: 12px; border-radius: 12px; margin-top: 10px; border: 1px dashed var(--primary-color);" onclick="toggleSection('sub-pastafrola')">
+                    <img src="pastaflorasmini.png" class="prod-img" style="width: 55px; height: 55px;">
+                    <div class="prod-info">
+                        <h3 style="font-weight: 600;">Pastafrola Mini</h3>
+                        <p style="color: var(--text-main); font-size: 12px;">$ 100 · Toca para ver variedades</p>
+                    </div>
+                    <div style="color: var(--primary-color); font-size: 18px;">▾</div>
+                </div>
+
+                <div id="sub-pastafrola" class="acc-content" style="padding-left: 20px; border-left: 2px solid var(--primary-color); margin-top: 5px;">
+                    <div class="product-item" onclick="event.stopPropagation(); openProductModal('Pastafrola Mini (Membrillo)', 100, 'pastaflorasmini.png', 'Pastafrola individual de membrillo artesanal sin TACC.')">
+                        <img src="pastaflorasmini.png" class="prod-img" style="width: 50px; height: 50px;">
+                        <div class="prod-info"><h3>De Membrillo</h3><p>$ 100</p></div>
+                        <div class="btn-plus">+</div>
+                    </div>
+                    <div class="product-item" onclick="event.stopPropagation(); openProductModal('Pastafrola Mini (Dulce de Leche)', 100, 'pastaflorasmini.png', 'Pastafrola individual de dulce de leche artesanal sin TACC.')">
+                        <img src="pastaflorasmini.png" class="prod-img" style="width: 50px; height: 50px;">
+                        <div class="prod-info"><h3>De Dulce de Leche</h3><p>$ 100</p></div>
+                        <div class="btn-plus">+</div>
+                    </div>
+                </div>
+
+                <!-- MUFFINS CON SUB-MENU -->
+                <div class="product-item" style="background: rgba(201, 168, 76, 0.05); padding: 12px; border-radius: 12px; margin-top: 10px; border: 1px dashed var(--primary-color);" onclick="toggleSection('sub-muffins')">
+                    <img src="muffins.png" class="prod-img" style="width: 55px; height: 55px;">
+                    <div class="prod-info">
+                        <h3 style="font-weight: 600;">Muffins Artesanales</h3>
+                        <p style="color: var(--text-main); font-size: 12px;">Desde $ 80 · Ver variedades</p>
+                    </div>
+                    <div style="color: var(--primary-color); font-size: 18px;">▾</div>
+                </div>
+
+                <div id="sub-muffins" class="acc-content" style="padding-left: 20px; border-left: 2px solid var(--primary-color); margin-top: 5px;">
+                    <div class="product-item" onclick="event.stopPropagation(); openProductModal('Muffin Clásico', 80, 'muffinsclasicos.png', 'Muffin artesanal de vainilla suave y esponjoso sin TACC.')">
+                        <img src="muffinsclasicos.png" class="prod-img" style="width: 50px; height: 50px;">
+                        <div class="prod-info"><h3>Muffin Clásico</h3><p>$ 80</p></div>
+                        <div class="btn-plus">+</div>
+                    </div>
+                    <div class="product-item" onclick="event.stopPropagation(); openProductModal('Muffin con Chispas', 90, 'muffins.png', 'Muffin de vainilla con abundantes chispas de chocolate premium sin TACC.')">
+                        <img src="muffins.png" class="prod-img" style="width: 50px; height: 50px;">
+                        <div class="prod-info"><h3>Muffin con Chispas</h3><p>$ 90</p></div>
+                        <div class="btn-plus">+</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SALADOS -->
+            <button class="acc-button" onclick="toggleSection('sec-salado', this)">Opciones Saladas <span>▾</span></button>
+            <div id="sec-salado" class="acc-content">
+                <div class="product-item" onclick="openProductModal('Docena de Empanadas', 950, 'empanadas.png', 'Docena surtida de empanadas caseras sin TACC horneadas.')">
+                    <img src="empanadas.png" class="prod-img">
+                    <div class="prod-info"><h3>Empanadas (Docena)</h3><p>$ 950</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+                <div class="product-item" onclick="openProductModal('Tarta de Atún', 600, 'atun.png', 'Relleno de atún seleccionado con vegetales frescos.')">
+                    <img src="atun.png" class="prod-img">
+                    <div class="prod-info"><h3>Tarta de Atún</h3><p>$ 600</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+                <div class="product-item" onclick="openProductModal('Tarta de Zapallitos', 600, 'zapallito.png', 'Suave relleno de zapallitos con queso y huevo.')">
+                    <img src="zapallito.png" class="prod-img">
+                    <div class="prod-info"><h3>Tarta de Zapallitos</h3><p>$ 600</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+                <div class="product-item" onclick="openProductModal('Tarta de Pollo', 600, 'pollo.png', 'Relleno de pollo artesanal con vegetales frescos y especias.')">
+                    <img src="pollo.png" class="prod-img">
+                    <div class="prod-info"><h3>Tarta de Pollo</h3><p>$ 600</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+                <div class="product-item" onclick="openProductModal('Tarta de Jamón y Queso', 600, 'jamonyqueso.png', 'Clásica combinación de jamón cocido y queso muzzarella premium.')">
+                    <img src="jamonyqueso.png" class="prod-img">
+                    <div class="prod-info"><h3>Tarta de J. y Queso</h3><p>$ 600</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+
+                <!-- PORCIONES CON SUB-MENU -->
+                <div class="product-item" style="background: rgba(201, 168, 76, 0.05); padding: 12px; border-radius: 12px; margin-top: 10px; border: 1px dashed var(--primary-color);" onclick="toggleSection('sub-porciones')">
+                    <img src="porciones.png" class="prod-img" style="width: 55px; height: 55px;">
+                    <div class="prod-info">
+                        <h3 style="font-weight: 600;">Porción de Tarta</h3>
+                        <p style="color: var(--text-main); font-size: 12px;">$ 120 · Toca para ver variedades</p>
+                    </div>
+                    <div style="color: var(--primary-color); font-size: 18px;">▾</div>
+                </div>
+
+                <div id="sub-porciones" class="acc-content" style="padding-left: 20px; border-left: 2px solid var(--primary-color); margin-top: 5px;">
+                    <div class="product-item" onclick="event.stopPropagation(); openProductModal('Porción de Atún', 120, 'atun.png', 'Porción individual de tarta de atún artesanal sin TACC.')">
+                        <img src="atun.png" class="prod-img" style="width: 50px; height: 50px;">
+                        <div class="prod-info"><h3>Porción de Atún</h3><p>$ 120</p></div>
+                        <div class="btn-plus">+</div>
+                    </div>
+                    <div class="product-item" onclick="event.stopPropagation(); openProductModal('Porción de Zapallitos', 120, 'zapallito.png', 'Porción individual de tarta de zapallitos artesanal sin TACC.')">
+                        <img src="zapallito.png" class="prod-img" style="width: 50px; height: 50px;">
+                        <div class="prod-info"><h3>Porción de Zapallitos</h3><p>$ 120</p></div>
+                        <div class="btn-plus">+</div>
+                    </div>
+                    <div class="product-item" onclick="event.stopPropagation(); openProductModal('Porción de Pollo', 120, 'porcionpollo.png', 'Porción individual de tarta de pollo artesanal sin TACC.')">
+                        <img src="porcionpollo.png" class="prod-img" style="width: 50px; height: 50px;">
+                        <div class="prod-info"><h3>Porción de Pollo</h3><p>$ 120</p></div>
+                        <div class="btn-plus">+</div>
+                    </div>
+                    <div class="product-item" onclick="event.stopPropagation(); openProductModal('Porción de Jamón y Queso', 120, 'jamonyqueso.png', 'Porción individual de tarta de jamón y queso artesanal sin TACC.')">
+                        <img src="jamonyqueso.png" class="prod-img" style="width: 50px; height: 50px;">
+                        <div class="prod-info"><h3>Porción de J. y Queso</h3><p>$ 120</p></div>
+                        <div class="btn-plus">+</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PANADERIA -->
+            <button class="acc-button" onclick="toggleSection('sec-pan', this)">Panadería <span>▾</span></button>
+            <div id="sec-pan" class="acc-content">
+                <div class="product-item" onclick="openProductModal('Pan de Molde Grande', 250, 'pan.png', 'Pan artesanal esponjoso, ideal para sándwiches o tostadas.')">
+                    <img src="pan.png" class="prod-img">
+                    <div class="prod-info"><h3>Pan de Molde Grande</h3><p>$ 250</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+                <div class="product-item" onclick="openProductModal('Pan de Molde Chico', 150, 'pan.png', 'Pan artesanal esponjoso en formato individual o pequeño.')">
+                    <img src="pan.png" class="prod-img">
+                    <div class="prod-info"><h3>Pan de Molde Chico</h3><p>$ 150</p></div>
+                    <div class="btn-plus">+</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCION INFORMATIVA -->
+        <div class="info-box">
+            <h2>¿Qué es Sin TACC?</h2>
+            <p>Nuestros productos son elaborados 100% libres de <b>Trigo, Avena, Cebada y Centeno</b>. Garantizamos la máxima seguridad y sabor artesanal.</p>
+            <div class="info-grid">
+                <div class="info-card">🌿<br>Natural</div>
+                <div class="info-card">🏠<br>Artesanal</div>
+                <div class="info-card">💛<br>Seguro</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVEGACIÓN -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active" onclick="closeModals()"><span class="nav-icon">⌂</span>Inicio</a>
+        <a href="javascript:void(0)" class="nav-item" onclick="openCartModal()">
+            <div id="cart-badge">0</div>
+            <span class="nav-icon">👜</span>Mi Pedido
+        </a>
+        <a href="javascript:void(0)" onclick="sendWhatsApp()" class="nav-item"><span class="nav-icon">💬</span>WhatsApp</a>
+    </nav>
+
+    <script>
+        let cart = [];
+
+        function startApp() { document.getElementById('splash').classList.add('hide'); }
+
+        function toggleSection(id, btn) {
+            const content = document.getElementById(id);
+            const isOpen = content.style.display === 'block';
+            content.style.display = isOpen ? 'none' : 'block';
+            btn.classList.toggle('active', !isOpen);
+        }
+
+        function openProductModal(name, price, img, desc) {
+            document.getElementById('modal-title').innerText = name;
+            document.getElementById('modal-price').innerText = "$ " + price;
+            document.getElementById('modal-desc').innerText = desc;
+            document.getElementById('modal-img').src = img;
+
+            document.querySelector('.modal-overlay').classList.add('show');
+            document.getElementById('product-modal').classList.add('show');
+
+            document.getElementById('btn-modal-add').onclick = function() {
+                addToCart(name, price);
+                closeModals();
+            };
+        }
+
+        function openCartModal() {
+            renderCart();
+            document.querySelector('.modal-overlay').classList.add('show');
+            document.getElementById('cart-modal').classList.add('show');
+        }
+
+        function closeModals() {
+            document.querySelectorAll('.modal-overlay, #product-modal, #cart-modal').forEach(el => el.classList.remove('show'));
+        }
+
+        function addToCart(name, price) {
+            cart.push({ id: Date.now() + Math.random(), name, price });
+            updateCartBadge();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartBadge();
+            renderCart();
+        }
+
+        function updateCartBadge() {
+            const b = document.getElementById('cart-badge');
+            b.style.display = cart.length > 0 ? 'flex' : 'none';
+            b.innerText = cart.length;
+        }
+
+        function renderCart() {
+            const list = document.getElementById('cart-list');
+            const footer = document.getElementById('cart-footer');
+            if (cart.length === 0) {
+                list.innerHTML = `<div style="text-align:center; padding:50px 20px; color:#999;"><span style="font-size:50px;">👜</span><br><br>Tu pedido está vacío.</div>`;
+                footer.style.display = 'none';
+            } else {
+                let html = '';
+                let total = 0;
+                cart.forEach(item => {
+                    total += item.price;
+                    html += `<div class="cart-item">
+                        <div><h4 style="margin:0;">${item.name}</h4><p style="margin:4px 0 0; color:var(--primary-color); font-weight:600;">$ ${item.price}</p></div>
+                        <button style="color:#e74c3c; background:none; border:none; font-size:18px;" onclick="removeFromCart(${item.id})">✕</button>
+                    </div>`;
+                });
+                list.innerHTML = html;
+                document.getElementById('cart-total-amount').innerText = "$ " + total;
+                footer.style.display = 'block';
+            }
+        }
+
+        function sendWhatsApp() {
+            const phoneNumber = "59891412283";
+            if (cart.length === 0) {
+                window.location.href = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent("Hola Libre Tentación! Quisiera consultar disponibilidad de sus productos Sin TACC.");
+                return;
+            }
+            let total = cart.reduce((s, i) => s + i.price, 0);
+            let msg = "Hola Libre Tentación! Quisiera consultar disponibilidad para el siguiente pedido:\n\n";
+            cart.forEach((i, idx) => msg += `• ${i.name} ($${i.price})\n`);
+            msg += `\n*TOTAL ESTIMADO: $${total}*\n\n¿Tienen stock disponible de estos productos?`;
+            window.location.href = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(msg);
+        }
+    </script>
+</body>
+</html>
